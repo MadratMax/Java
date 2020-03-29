@@ -1,0 +1,107 @@
+{
+  "Accounts": [
+    {
+      "accountId": "4421f649-9b2e-403a-a7ac-831f5a6337a3",
+      "userCount": 25,
+      "environments": [
+        "QA0"
+      ],
+      "category": [
+        "Smoke"
+      ],
+      "login": "UserOne",
+      "password": "c6adff1d"
+    },
+    {
+      "accountId": "f4f77651-b3c7-41d7-ac72-a5c92595e044",
+      "userCount": 10,
+      "environments": [
+        "QA0"
+      ],
+      "category": [
+        "Smoke"
+      ],
+      "login": "userB",
+      "password": "30cfbb62"
+    },
+    {
+      "accountId": "f093f448-54bc-4fcd-b399-4af7ad8524c8",
+      "userCount": 25,
+      "environments": [
+        "DEV0"
+      ],
+      "category": [
+        "Smoke",
+        "Acceptance",
+        "All"
+      ],
+      "login": "userDev1",
+      "password": "d9b3d174"
+    },
+    {
+      "accountId": "999a9104-9563-4c50-b92a-1a15795d0bb7",
+      "userCount": 22,
+      "environments": [
+        "DEV1"
+      ],
+      "category": [
+        "Acceptance",
+        "All"
+      ],
+      "login": "userDev2",
+      "password": "8685df20"
+    },
+    {
+      "accountId": "66f1740b-618f-4be4-bf4a-fd8d00834c26",
+      "userCount": 35,
+      "environments": [
+        "QA0",
+        "QA1",
+        "QA2"
+      ],
+      "category": [
+        "Smoke"
+      ],
+      "login": "userQA1",
+      "password": "73103ef5"
+    },
+    {
+      "accountId": "3cf39587-fd8a-4ffb-9641-12d61766dec9",
+      "userCount": 12,
+      "environments": [
+        "QA0",
+        "QA1"
+      ],
+      "category": [
+        "Smoke",
+        "Acceptance",
+        "All"
+      ],
+      "login": "userQA2",
+      "password": "9bcda996"
+    },
+    {
+      "accountId": "075e4db1-6a22-4c8b-b31d-41da6fc221d4",
+      "userCount": 6,
+      "environments": [
+        "PROD"
+      ],
+      "category": [
+        "Smoke",        
+        "All"
+      ],
+      "login": "userProd1",
+      "password": "c41b3f41"
+    },
+    {
+      "accountId": "c1eae5bb-08c7-4d55-98b4-056ab3288d5d",
+      "userCount": 6,
+      "environments": "PROD",
+      "category": [
+        "All"
+      ],
+      "login": "userProd2",
+      "password": "d96f0324"
+    }
+  ]
+}
