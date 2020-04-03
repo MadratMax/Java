@@ -1,4 +1,4 @@
-package madrat.max;
+package madrat;
 
 import java.util.ArrayList;
 
