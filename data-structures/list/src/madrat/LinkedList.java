@@ -13,8 +13,15 @@ public class LinkedList {
         this.head = this;
     }
 
+    public LinkedList(){
+    }
+
     public LinkedList head(){
         return this.head;
+    }
+
+    public LinkedList next(){
+        return this.head.next;
     }
 
     public LinkedList last(){
