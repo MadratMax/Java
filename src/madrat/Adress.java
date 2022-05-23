@@ -27,10 +27,10 @@ public class Adress {
         private int buildingNumber;
 
         public Boolean notCompleted(){
-            if(this.city.isBlank()){
+            if(this.city == ""){
                 return true;
             }
-            if(this.street.isBlank()){
+            if(this.street == ""){
                 return true;
             }
             if(this.buildingNumber == 0){
