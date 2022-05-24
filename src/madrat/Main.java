@@ -7,7 +7,7 @@ import java.io.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         //printArrayWithIndex(Sort.bubbleSort(new int[] {5,4,1,9,2,3,6,8,7}));
     }
 
