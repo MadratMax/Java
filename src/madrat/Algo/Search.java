@@ -1,6 +1,6 @@
 package madrat.Algo;
 
-public class BinSearch {
+public class Search {
 
     public static int binSearch(int[] list, int search) {
         int left = 0;
