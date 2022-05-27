@@ -23,9 +23,13 @@ public class BinSearchTree {
     public void add(int value) {
         root = addRecursive(root, value);
     }
+
+    public void print() {
+        TreePrinter.print(root);
+    }
 }
 
-class Node {
+class Node implements TreePrinter.PrintableNode {
     int value;
     Node left;
     Node right;
@@ -34,5 +38,20 @@ class Node {
         this.value = value;
         right = null;
         left = null;
+    }
+
+    @Override
+    public TreePrinter.PrintableNode getLeft() {
+        return left;
+    }
+
+    @Override
+    public TreePrinter.PrintableNode getRight() {
+        return right;
+    }
+
+    @Override
+    public String getText() {
+        return String.valueOf(value);
     }
 }

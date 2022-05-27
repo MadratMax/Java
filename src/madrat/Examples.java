@@ -4,12 +4,11 @@ import madrat.Algo.Sort;
 import madrat.DataStructures.BinSearchTree;
 import madrat.DataStructures.DoublyLinkedList;
 import madrat.DataStructures.Stack;
-import madrat.Utils.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static madrat.Utils.printArrayWithIndex;
-import static madrat.Utils.printObject;
+import static madrat.Utils.*;
 
 public class Examples {
 
@@ -63,15 +62,22 @@ public class Examples {
     }
 
     public static void usingBinSearchTree() {
+        List<Integer> intArray = Utils.generateRandomArrayList(10, 20);
+
         BinSearchTree tree = new BinSearchTree();
-        tree.add(1);
-        tree.add(18);
-        tree.add(3);
-        tree.add(2);
-        tree.add(11);
-        tree.add(5);
-        tree.add(6);
-        tree.add(4);
-        tree.add(10);
+
+        for (int i: intArray) {
+            tree.add(i);
+        }
+
+        tree.print();
+    }
+
+    public static void usingMergeSort() {
+        int[] intArray = Utils.generateRandomIntArray(10, 20);
+
+        int[] sorted = Sort.mergeSort(intArray);
+
+        printArray(sorted);
     }
 }
