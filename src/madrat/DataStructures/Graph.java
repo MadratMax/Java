@@ -1,6 +1,7 @@
 package madrat.DataStructures;
 
-import madrat.Land;
+import madrat.Empire.Land;
+import madrat.Empire.MessageBox;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -37,14 +38,6 @@ public class Graph<T> {
         }
     }
 
-    // This function gives the count of vertices
-    public void getVertexCount()
-    {
-        System.out.println("The graph has "
-                + map.keySet().size()
-                + " vertex");
-    }
-
     // This function gives the count of edges
     public void getEdgesCount(boolean bidirection)
     {
@@ -54,23 +47,6 @@ public class Graph<T> {
         }
         if (bidirection == true) {
             count = count / 2;
-        }
-        System.out.println("The graph has "
-                + count
-                + " edges.");
-    }
-
-    // This function gives whether
-    // a vertex is present or not.
-    public void hasVertex(T s)
-    {
-        if (map.containsKey(s)) {
-            System.out.println("The graph contains "
-                    + s + " as a vertex.");
-        }
-        else {
-            System.out.println("The graph does not contain "
-                    + s + " as a vertex.");
         }
     }
 
@@ -87,9 +63,7 @@ public class Graph<T> {
         }
     }
 
-    // Prints the adjancency list of each vertex.
-    @Override
-    public String toString()
+    public void setNeighbours()
     {
         StringBuilder builder = new StringBuilder();
 
@@ -97,10 +71,11 @@ public class Graph<T> {
             builder.append(v.name().toString() + ": ");
             for (Land w : map.get(v)) {
                 builder.append(w.name().toString() + " ");
+                v.setNeighbour(w);
             }
             builder.append("\n");
         }
 
-        return (builder.toString());
+        MessageBox.pushMessage("Map: \n" + builder.toString());
     }
 }

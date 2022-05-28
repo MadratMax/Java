@@ -1,6 +1,9 @@
 package madrat;
 
 import madrat.DataStructures.Graph;
+import madrat.Empire.*;
+import madrat.Empire.ResourceManager.Factory;
+import madrat.Empire.TrainingStation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +20,26 @@ public class Main {
 
         //Examples.usingMergeSort();
 
-        Land land1 = new Land("land1", 200);
-        Land land2 = new Land("land2", 122);
-        Land land3 = new Land("land3", 33);
-        Land land4 = new Land("land4", 444);
-        Land land5 = new Land("land5", 680);
-        Land land6 = new Land("land6", 100);
-        Land land7 = new Land("land7", 10);
-        Land land8 = new Land("land8", 999);
-        Land land9 = new Land("land9", 999);
-        Land land10 = new Land("land10", 999);
-        Land land11 = new Land("land11", 999);
-        Land land12 = new Land("land12", 999);
-        Land land13 = new Land("land13", 999);
-        Land land14 = new Land("land14", 999);
+        IPublisher publisher = new ConsolePublisher();
+        publisher.publish();
+
+        WarManager warManager = new WarManager();
+
+
+        Land land1 = new Land("land1", Randomizator.getRandomMapSize(), warManager);
+        Land land2 = new Land("land2", Randomizator.getRandomMapSize(), warManager);
+        Land land3 = new Land("land3", Randomizator.getRandomMapSize(), warManager);
+        Land land4 = new Land("land4", Randomizator.getRandomMapSize(), warManager);
+        Land land5 = new Land("land5", Randomizator.getRandomMapSize(), warManager);
+        Land land6 = new Land("land6", Randomizator.getRandomMapSize(), warManager);
+        Land land7 = new Land("land7", Randomizator.getRandomMapSize(), warManager);
+        Land land8 = new Land("land8", Randomizator.getRandomMapSize(), warManager);
+        Land land9 = new Land("land9", Randomizator.getRandomMapSize(), warManager);
+        Land land10 = new Land("land10", Randomizator.getRandomMapSize(), warManager);
+        Land land11 = new Land("land11", Randomizator.getRandomMapSize(), warManager);
+        Land land12 = new Land("land12", Randomizator.getRandomMapSize(), warManager);
+        Land land13 = new Land("land13", Randomizator.getRandomMapSize(), warManager);
+        Land land14 = new Land("land14", Randomizator.getRandomMapSize(), warManager);
 
         List<Land> lands = new ArrayList<>();
         lands.add(land1);
@@ -50,27 +59,100 @@ public class Main {
 
         Graph<Integer> g = new Graph<Integer>();
 
+        boolean setUserOwned = false;
+
         for (int i = 0; i<lands.size(); i++) {
             Random rand = new Random();
             Land randomLand = lands.get(rand.nextInt(lands.size()));
             if (randomLand != lands.get(i))
+                if (!setUserOwned) {
+                    randomLand.setUserOwned();
+                    setUserOwned = true;
+                }
                 g.addEdge(lands.get(i), randomLand, true);
         }
 
-        System.out.println("Graph:\n"
-                + g.toString());
+        g.setNeighbours();
 
-        // Gives the no of vertices in the graph.
-        g.getVertexCount();
+        land1.getHomeArmy().addSoldier(new Soldier());
+        land1.getHomeArmy().addSoldier(new Soldier());
+        land1.getHomeArmy().addSoldier(new Soldier());
 
-        // Gives the no of edges in the graph.
-        g.getEdgesCount(true);
 
-        // Tells whether the edge is present or not.
-        //g.hasEdge(3, 4);
+        land3.getHomeArmy().addSoldier(new Soldier());
+        land3.getHomeArmy().addSoldier(new Soldier());
+        land3.getHomeArmy().addSoldier(new Soldier());
+        land1.getAssaultArmy().addSoldier(new Soldier());
+        land3.getAssaultArmy().addSoldier(new Soldier());
+        //land3.getHomeArmy().addSoldier(new Soldier());
+        //land3.getHomeArmy().addSoldier(new Soldier());
 
-        // Tells whether vertex is present or not
-        //g.hasVertex(5);
+        land1.getResources().GOLD += 100;
+        //land3.getResources().GOLD += 100;
 
+        Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
+        Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
+        Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
+        land3.getCivils().addCivil(new Civil());
+        land3.getCivils().addCivil(new Civil());
+        land3.getCivils().addCivil(new Civil());
+        //Barracks.trainCivil(land3.getCivils(), 2, land3.getResources());
+
+        land3.getCivils().setTo(ResourceType.FOOD);
+        land3.getCivils().setTo(ResourceType.GOLD);
+        land3.getCivils().setTo(ResourceType.WOOD);
+        land3.getCivils().setTo(ResourceType.FOOD);
+
+        Factory.process(land3.getCivils(), land3.getResources());
+        Factory.process(land3.getCivils(), land3.getResources());
+        Factory.process(land3.getCivils(), land3.getResources());
+
+        warManager.startWar(land1.getHomeArmy(), land3.getHomeArmy());
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+        warManager.process();
+
+        publisher.publishAll();
     }
 }
