@@ -13,8 +13,18 @@ public class Soldier {
     private int skill;
     private int gold;
 
+    public Soldier(String name) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name + "_" + this.id;
+        this.spirit = Spirit.MEDIUM;
+        this.gold = 5;
+        this.skill = Randomizator.getRandomSkill();
+        this.health = Randomizator.getRandomHealth();
+    }
+
     public Soldier() {
         this.id = UUID.randomUUID().toString();
+        this.name = "_" + this.id;
         this.spirit = Spirit.MEDIUM;
         this.gold = 5;
         this.skill = Randomizator.getRandomSkill();
@@ -22,7 +32,11 @@ public class Soldier {
     }
 
     public String name() {
-        return id;
+        return name;
+    }
+
+    public void setName(String setName) {
+        name = setName + name;
     }
 
     public int skill() {
@@ -31,7 +45,7 @@ public class Soldier {
 
     public void train() {
         skill++;
-        MessageBox.pushMessage(id +  " has been skilled | " + " skill: " + skill);
+        MessageBox.pushLogMessage(id +  " has been skilled | " + " skill: " + skill);
     }
 
     public int health() {
@@ -60,5 +74,9 @@ public class Soldier {
 
     public void addGold(int gold) {
         this.gold += gold;
+    }
+
+    public void setSpirit(Spirit updateSpirit) {
+        spirit = updateSpirit;
     }
 }

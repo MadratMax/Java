@@ -5,14 +5,12 @@ import madrat.Empire.DataStructures.Stack;
 public class Army {
 
     private int size = 0;
-    private final int maxCapacity;
     private Stack army;
     private Land owner;
 
     public Army(Land owner) {
         this.owner = owner;
         this.army = new Stack(owner.size());
-        this.maxCapacity = owner.size();
     }
 
     public Land owner() {
@@ -20,10 +18,13 @@ public class Army {
     }
 
     public Soldier addSoldier(Soldier soldier) {
-        if (size >= maxCapacity)
+        if (size >= owner.size())
             return null;
 
         if (soldier != null && soldier.health() > 0) {
+            if (soldier.name().startsWith("_")) {
+                soldier.setName(owner.name());
+            }
             army.push(soldier);
             size++;
         }

@@ -5,7 +5,7 @@ import java.util.*;
 public class Land {
 
     private boolean ai;
-    private final String name;
+    private String name;
     private int size;
     private final String id;
     private final String kingName;
@@ -27,6 +27,8 @@ public class Land {
     private int woodWorkers;
     private int goldWorkers;
     private Land possibleTarget;
+    private boolean conquered;
+    private Land conquerorLand;
 
     public Land(String name, int size, WarManager warManager) {
         this.ai = true;
@@ -55,17 +57,56 @@ public class Land {
         return name;
     }
 
+    public String id() {
+        return id;
+    }
+
     public String kingName() {
         return kingName;
     }
 
+    public void setOnWar(boolean onWarStatus) {
+        isOnWar = onWarStatus;
+    }
+
+    public boolean isOnWar() {
+        return isOnWar;
+    }
+
+    public Land conqueredBy() {
+        return conquerorLand;
+    }
+
     public int size() { return size; }
+
+    public void setSize(int newSize) {
+        this.size = this.size + newSize;
+    }
 
     public Army getHomeArmy() { return this.homeArmy; }
 
     public Army getAssaultArmy() { return this.assaultArmy; }
 
     public Civils getCivils() { return this.civils; }
+
+    public void setCivils(Civils newCivils) {
+        this.civils = null;
+        this.civils = newCivils;
+
+        for (int i = 0; i < civils.size(); i++) {
+            MessageBox.pushMessage(this.name + " civil: " + civils.getCivil().name());
+        }
+    }
+
+    public void reformHomeArmy(Army newHomeArmy) {
+        this.homeArmy = null;
+        this.homeArmy = newHomeArmy;
+    }
+
+    public void reformAssaultArmy(Army newAssaultArmy) {
+        this.assaultArmy = null;
+        this.assaultArmy = newAssaultArmy;
+    }
 
     public Resources getResources() {
         return this.resources;
@@ -92,18 +133,8 @@ public class Land {
             neighbours.add(neighbour);
     }
 
-    public void extend(Land neighbour) {
-        if (neighbours.contains(neighbour)) {
-            neighbours.remove(neighbour);
-            MessageBox.pushMessage(name + " occupied " + neighbour.name);
-            size += neighbour.size();
-            for (int i = 0; i < neighbour.neighbours.size(); i++) {
-                if (!neighbour.neighbours.get(i).id.equals(this.id)) {
-                    setNeighbour(neighbour.neighbours.get(i));
-                    MessageBox.pushMessage(name + " now borders with " + neighbour.neighbours.get(i).name);
-                }
-            }
-        }
+    public List<Land> getNeighbours() {
+        return neighbours;
     }
 
     public void addSoldierToHomeArmy() {
@@ -111,9 +142,13 @@ public class Land {
         homeArmy.addSoldier(soldier);
     }
 
-    public void revokeToHomeArmy() {
+    public void revokeToHomeArmy(boolean capitulation) {
         while (!assaultArmy.isEmpty()) {
-            homeArmy.addSoldier(assaultArmy.getSoldier());
+            Soldier soldier = assaultArmy.getSoldier();
+            if (capitulation)
+                soldier.setSpirit(Spirit.LOW);
+            homeArmy.addSoldier(soldier);
+            MessageBox.pushMessage(this.name + " | soldier " + soldier.name() + " returned to home army");
         }
     }
 
@@ -146,6 +181,8 @@ public class Land {
             } else {
                 // TODO message
             }
+        } else {
+            MessageBox.pushMessage(this.name() + " is too far from " + enemyLand.name() + " to attack");
         }
     }
 
@@ -153,7 +190,24 @@ public class Land {
         for (int i = 0; i <= soldiersCount; i++) {
             if (homeArmy.isEmpty())
                 return;
-            assaultArmy.addSoldier(homeArmy.getSoldier());
+
+            Soldier soldier = homeArmy.getSoldier();
+
+            if (soldier != null) {
+                assaultArmy.addSoldier(soldier);
+                MessageBox.pushMessage("soldier " + soldier.name() + " was mobilized to the assault army of " + this.name);
+                MessageBox.pushMessage(this.name + " home army contains " + homeArmy.size());
+                MessageBox.pushMessage(this.name + " assault army contains " + assaultArmy.size());
+            }
         }
+    }
+
+    public void changeName(String newName) {
+        name = newName;
+    }
+
+    public void setConquered(boolean res, Land conquerorLand) {
+        this.conquered = res;
+        this.conquerorLand = conquerorLand;
     }
 }

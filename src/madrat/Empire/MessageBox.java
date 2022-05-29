@@ -19,6 +19,10 @@ public class MessageBox {
         box.add("[LOG] " + message);
     }
 
+    public static void pushFightMessage(String message) {
+        box.add("[FIGHT] " + message);
+    }
+
     public static String getMessage() {
         return (String) box.remove();
     }

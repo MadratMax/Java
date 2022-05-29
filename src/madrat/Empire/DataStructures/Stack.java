@@ -2,12 +2,10 @@ package madrat.Empire.DataStructures;
 
 public class Stack {
 
-    private final int maxSize;
     private int size;
     private StackNode currentNode;
 
     public Stack(int size) {
-        this.maxSize = size;
     }
 
     public Object pop() {
@@ -22,7 +20,7 @@ public class Stack {
     }
 
     public Stack push(Object data) {
-        if (size < maxSize && data != null) {
+        if (data != null) {
             currentNode = new StackNode(data, currentNode);
             size++;
         }

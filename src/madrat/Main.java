@@ -69,7 +69,9 @@ public class Main {
                     randomLand.setUserOwned();
                     setUserOwned = true;
                 }
+            if (!lands.get(i).equals(randomLand) && !g.hasEdge(lands.get(i), randomLand)) {
                 g.addEdge(lands.get(i), randomLand, true);
+            }
         }
 
         g.setNeighbours();
@@ -77,22 +79,56 @@ public class Main {
         land1.getHomeArmy().addSoldier(new Soldier());
         land1.getHomeArmy().addSoldier(new Soldier());
         land1.getHomeArmy().addSoldier(new Soldier());
+        land1.getHomeArmy().addSoldier(new Soldier());
+        land1.getHomeArmy().addSoldier(new Soldier());
 
+        land3.getHomeArmy().addSoldier(new Soldier());
+        land3.getHomeArmy().addSoldier(new Soldier());
+        land3.getHomeArmy().addSoldier(new Soldier());
 
-        land3.getHomeArmy().addSoldier(new Soldier());
-        land3.getHomeArmy().addSoldier(new Soldier());
-        land3.getHomeArmy().addSoldier(new Soldier());
-        land1.getAssaultArmy().addSoldier(new Soldier());
-        land3.getAssaultArmy().addSoldier(new Soldier());
         //land3.getHomeArmy().addSoldier(new Soldier());
         //land3.getHomeArmy().addSoldier(new Soldier());
+        land11.getHomeArmy().addSoldier(new Soldier());
+        land11.getHomeArmy().addSoldier(new Soldier());
+        land11.getHomeArmy().addSoldier(new Soldier());
 
         land1.getResources().GOLD += 100;
-        //land3.getResources().GOLD += 100;
+        land3.getResources().GOLD += 100;
 
         Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
         Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
         Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
+
+        land1.attack(land4, 2);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }
+
+        land3.attack(land4, 3);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }
+
+        land3.attack(land4, 3);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }
+
+        /*land3.attack(land4, 2);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }
+
+        land3.attack(land5, 2);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }
+
+        land3.attack(land10, 2);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }
+
         land3.getCivils().addCivil(new Civil());
         land3.getCivils().addCivil(new Civil());
         land3.getCivils().addCivil(new Civil());
@@ -107,52 +143,33 @@ public class Main {
         Factory.process(land3.getCivils(), land3.getResources());
         Factory.process(land3.getCivils(), land3.getResources());
 
-        warManager.startWar(land1.getHomeArmy(), land3.getHomeArmy());
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
-        warManager.process();
+        land1.attack(land2, 3);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }
 
-        publisher.publishAll();
+        land1.attack(land5, 3);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }
+
+        land1.attack(land4, 1);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }
+
+        land11.attack(land3, 3);
+        for (int i = 0; i < 46; i++) {
+            warManager.process();
+        }*/
+
+        //for (int i = 0; i < 10; i++) {
+        //    lands.get(Randomizator.getRandomIndex(lands.size())).attack(lands.get(Randomizator.getRandomIndex(lands.size())), 5);
+        //    for (int j = 0; j < 30; j++)
+        //        warManager.process();
+        //}
+
+        g.setNeighbours();
+        publisher.publish();
     }
 }

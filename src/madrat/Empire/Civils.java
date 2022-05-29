@@ -5,28 +5,28 @@ import madrat.Empire.DataStructures.Stack;
 public class Civils {
 
     private int size = 0;
-    private final int maxCapacity;
     private Stack civils;
     private Land owner;
 
     public Civils(Land owner) {
         this.owner = owner;
         this.civils = new Stack(owner.size());
-        this.maxCapacity = owner.size();
     }
 
     public Land owner() {
         return owner;
     }
 
-    public void addCivil(Civil civil) {
-        if (size >= maxCapacity)
-            return;
+    public Civil addCivil(Civil civil) {
+        if (size >= owner.size())
+            return null;
 
         if (civil != null) {
             civils.push(civil);
             size++;
         }
+
+        return civil;
     }
 
     public Civil getCivil() {

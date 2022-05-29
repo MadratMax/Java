@@ -23,8 +23,7 @@ public class Graph<T> {
     // between source to destination
     public void addEdge(Land source,
                         Land destination,
-                        boolean bidirectional)
-    {
+                        boolean bidirectional) {
 
         if (!map.containsKey(source))
             addVertex(source);
@@ -39,8 +38,7 @@ public class Graph<T> {
     }
 
     // This function gives the count of edges
-    public void getEdgesCount(boolean bidirection)
-    {
+    public void getEdgesCount(boolean bidirection) {
         int count = 0;
         for (Land v : map.keySet()) {
             count += map.get(v).size();
@@ -51,20 +49,24 @@ public class Graph<T> {
     }
 
     // This function gives whether an edge is present or not.
-    public void hasEdge(T s, T d)
-    {
-        if (map.get(s).contains(d)) {
-            System.out.println("The graph has an edge between "
-                    + s + " and " + d + ".");
+    public boolean hasEdge(Land s, Land d) {
+        if (map.size() != 0) {
+            try {
+                for (Land l:map.get(s)
+                ) {
+                    if (l.equals(d)) {
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+                return false;
+            }
         }
-        else {
-            System.out.println("The graph has no edge between "
-                    + s + " and " + d + ".");
-        }
+
+        return false;
     }
 
-    public void setNeighbours()
-    {
+    public void setNeighbours() {
         StringBuilder builder = new StringBuilder();
 
         for (Land v : map.keySet()) {

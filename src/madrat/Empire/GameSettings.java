@@ -17,5 +17,11 @@ public class GameSettings {
     public static int trainSoldierFee = 9;
     public static int trainCivilFee = 15;
 
-    public static int createCivilFee = 15;
+    public static int createCivilGoldFee = 15;
+    public static int createCivilFoodFee = 10;
+    public static int createCivilWoodFee = 0;
+
+    public static int createSoldierGoldFee = 20;
+    public static int createSoldierFoodFee = 15;
+    public static int createSoldierWoodFee = 10;
 }
