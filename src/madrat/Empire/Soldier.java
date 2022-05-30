@@ -4,14 +4,14 @@ import java.util.UUID;
 
 public class Soldier {
 
-    private String name;
-    private final String id;
-    private int health;
-    private Spirit spirit;
-    private int kills;
-    private boolean onWar;
-    private int skill;
-    private int gold;
+    public String name;
+    public final String id;
+    public int health;
+    public Spirit spirit;
+    public int kills;
+    public boolean onWar;
+    public int skill;
+    public int gold;
 
     public Soldier(String name) {
         this.id = UUID.randomUUID().toString();
@@ -41,11 +41,6 @@ public class Soldier {
 
     public int skill() {
         return skill;
-    }
-
-    public void train() {
-        skill++;
-        MessageBox.pushLogMessage(id +  " has been skilled | " + " skill: " + skill);
     }
 
     public int health() {

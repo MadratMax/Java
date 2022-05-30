@@ -2,7 +2,6 @@ package madrat;
 
 import madrat.DataStructures.Graph;
 import madrat.Empire.*;
-import madrat.Empire.ResourceManager.Factory;
 import madrat.Empire.TrainingStation.*;
 
 import java.util.ArrayList;
@@ -96,9 +95,9 @@ public class Main {
         land1.getResources().GOLD += 100;
         land3.getResources().GOLD += 100;
 
-        Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
-        Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
-        Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
+        Barracks.trainSoldiers(land1.getHomeArmy(), land1.getResources());
+        Barracks.trainSoldiers(land1.getHomeArmy(), land1.getResources());
+        Barracks.trainSoldiers(land1.getHomeArmy(), land1.getResources());
 
         land1.attack(land11, 5);
         land3.attack(land11, 5);

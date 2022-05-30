@@ -28,9 +28,28 @@ public class Barracks {
         army.addSoldier(soldier);
     }
 
-    public static void trainSoldier(Army army, int count, Resources resources) {
+    public static void trainSoldiers(Army army, Resources resources) {
         if (resources.GOLD < GameSettings.trainSoldierFee) {
             MessageBox.pushMessage("insufficient funds to train a soldier");
+            return;
+        }
+
+        Soldier soldier = army.getSoldier();
+
+        if (soldier == null)
+            return;
+
+        resources.GOLD = resources.GOLD - GameSettings.trainSoldierFee;
+        soldier.skill++;
+        MessageBox.pushLogMessage(soldier.id +  " has been skilled | " + " skill: " + soldier.skill);
+
+        trainSoldiers(army, resources);
+        army.addSoldier(soldier);
+    }
+
+    public static void treatSoldier(Army army, int count, Resources resources) {
+        if (resources.GOLD < GameSettings.treatSoldierFee) {
+            MessageBox.pushMessage("insufficient funds to treat a soldier");
             return;
         }
 
@@ -39,9 +58,18 @@ public class Barracks {
         if (count == 0 || soldier == null)
             return;
 
-        soldier.train();
-        resources.GOLD = resources.GOLD - GameSettings.trainSoldierFee;
-        trainSoldier(army, count-1, resources);
+        if (soldier.health < 10) {
+            while (soldier.health < 10) {
+                resources.GOLD = resources.GOLD - GameSettings.treatSoldierFee;
+                soldier.health++;
+            }
+
+            MessageBox.pushLogMessage(soldier.id +  " was treated | " + "health: " + soldier.health);
+            treatSoldier(army, count-1, resources);
+        } else {
+            treatSoldier(army, count, resources);
+        }
+
         army.addSoldier(soldier);
     }
 
