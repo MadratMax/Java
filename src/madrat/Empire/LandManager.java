@@ -17,8 +17,9 @@ public class LandManager {
             MessageBox.pushMessage(fromLand.name() + " occupied " + neighbour.name());
             fromLand.setSize(neighbour.size());
             MessageBox.pushMessage(fromLand.name() + " size extended from " + oldSize + " to " + fromLand.size());
-            neighbour.changeName(fromLand.name());
             neighbour.setConquered(true, fromLand);
+            neighbour.assaultArmy = fromLand.assaultArmy;
+            neighbour.homeArmy = fromLand.homeArmy;
             for (int i = 0; i < neighbour.getNeighbours().size(); i++) {
                 if (!neighbour.getNeighbours().get(i).id().equals(fromLand.id()) &&
                     !neighbour.getNeighbours().get(i).id().equals(neighbour.id())) {

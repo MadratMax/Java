@@ -37,7 +37,7 @@ public class FightLogic {
             soldier2.injure(sol1Score);
         }
         else if (sol1Score < 0) {
-            MessageBox.pushFightMessage("Soldier " + soldier2.name() + " [land: " + army2.owner().name() + "] harmed " + soldier1.name() + " with power " + sol1Score);
+            MessageBox.pushFightMessage("Soldier " + soldier2.name() + " [land: " + army2.owner().name() + "] harmed " + soldier1.name() + " with power " + Math.abs(sol1Score));
             soldier1.injure(Math.abs(sol1Score));
         }
 

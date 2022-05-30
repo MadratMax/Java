@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //Examples.usingBubbleSort();
         //Examples.usingList();
         //Examples.usingStack();
@@ -43,19 +43,19 @@ public class Main {
 
         List<Land> lands = new ArrayList<>();
         lands.add(land1);
-        lands.add(land2);
+        //lands.add(land2);
         lands.add(land3);
-        lands.add(land4);
-        lands.add(land5);
-        lands.add(land6);
-        lands.add(land7);
-        lands.add(land8);
-        lands.add(land9);
-        lands.add(land10);
+        //lands.add(land4);
+        //lands.add(land5);
+        //lands.add(land6);
+        //lands.add(land7);
+        //lands.add(land8);
+        //lands.add(land9);
+        //lands.add(land10);
         lands.add(land11);
-        lands.add(land12);
-        lands.add(land13);
-        lands.add(land14);
+        //lands.add(land12);
+        //lands.add(land13);
+        //lands.add(land14);
 
         Graph<Integer> g = new Graph<Integer>();
 
@@ -76,21 +76,22 @@ public class Main {
 
         g.setNeighbours();
 
-        land1.getHomeArmy().addSoldier(new Soldier());
-        land1.getHomeArmy().addSoldier(new Soldier());
-        land1.getHomeArmy().addSoldier(new Soldier());
-        land1.getHomeArmy().addSoldier(new Soldier());
-        land1.getHomeArmy().addSoldier(new Soldier());
+        land11.getHomeArmy().addSoldier(new Soldier());
+        land11.getHomeArmy().addSoldier(new Soldier());
+        land11.getHomeArmy().addSoldier(new Soldier());
+        land11.getHomeArmy().addSoldier(new Soldier());
+        land11.getHomeArmy().addSoldier(new Soldier());
 
         land3.getHomeArmy().addSoldier(new Soldier());
         land3.getHomeArmy().addSoldier(new Soldier());
         land3.getHomeArmy().addSoldier(new Soldier());
+        //land3.getHomeArmy().addSoldier(new Soldier());
 
         //land3.getHomeArmy().addSoldier(new Soldier());
         //land3.getHomeArmy().addSoldier(new Soldier());
-        land11.getHomeArmy().addSoldier(new Soldier());
-        land11.getHomeArmy().addSoldier(new Soldier());
-        land11.getHomeArmy().addSoldier(new Soldier());
+        land1.getHomeArmy().addSoldier(new Soldier());
+        land1.getHomeArmy().addSoldier(new Soldier());
+        land1.getHomeArmy().addSoldier(new Soldier());
 
         land1.getResources().GOLD += 100;
         land3.getResources().GOLD += 100;
@@ -99,7 +100,14 @@ public class Main {
         Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
         Barracks.trainSoldier(land1.getHomeArmy(), 10, land1.getResources());
 
-        land1.attack(land4, 2);
+        land1.attack(land11, 5);
+        land3.attack(land11, 5);
+        for (int i = 0; i < 76; i++) {
+            warManager.process();
+            Thread.sleep(20);
+        }
+
+        /*land3.attack(land4, 3);
         for (int i = 0; i < 46; i++) {
             warManager.process();
         }
@@ -107,12 +115,7 @@ public class Main {
         land3.attack(land4, 3);
         for (int i = 0; i < 46; i++) {
             warManager.process();
-        }
-
-        land3.attack(land4, 3);
-        for (int i = 0; i < 46; i++) {
-            warManager.process();
-        }
+        }*/
 
         /*land3.attack(land4, 2);
         for (int i = 0; i < 46; i++) {
@@ -170,6 +173,7 @@ public class Main {
         //}
 
         g.setNeighbours();
+        publisher.showFights(true);
         publisher.publish();
     }
 }

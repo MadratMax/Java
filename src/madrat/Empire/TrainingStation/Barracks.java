@@ -30,7 +30,7 @@ public class Barracks {
 
     public static void trainSoldier(Army army, int count, Resources resources) {
         if (resources.GOLD < GameSettings.trainSoldierFee) {
-            MessageBox.pushLogMessage("insufficient funds to train a soldier");
+            MessageBox.pushMessage("insufficient funds to train a soldier");
             return;
         }
 

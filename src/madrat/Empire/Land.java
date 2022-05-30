@@ -4,31 +4,31 @@ import java.util.*;
 
 public class Land {
 
-    private boolean ai;
-    private String name;
-    private int size;
-    private final String id;
-    private final String kingName;
-    private final WarManager warManager;
-    private List<Land> allies;
-    private Army assaultArmy;
-    private Army homeArmy;
-    private Map<ResourceType, Land> trades;
-    private Civils civils;
-    private Resources resources;
-    private List<Land> neighbours;
-    private boolean isOnWar;
-    private boolean isUnderAttack;
-    private Land enemyLandInWar;
-    private int capacity;
-    private List<Land> landsConquered;
-    private int loses;
-    private int foodWorkers;
-    private int woodWorkers;
-    private int goldWorkers;
-    private Land possibleTarget;
-    private boolean conquered;
-    private Land conquerorLand;
+    public boolean ai;
+    public String name;
+    public int size;
+    public final String id;
+    public final String kingName;
+    public final WarManager warManager;
+    public List<Land> allies;
+    public Army assaultArmy;
+    public Army homeArmy;
+    public Map<ResourceType, Land> trades;
+    public Civils civils;
+    public Resources resources;
+    public List<Land> neighbours;
+    public boolean isOnWar;
+    public boolean isUnderAttack;
+    public Land enemyLandInWar;
+    public int capacity;
+    public List<Land> landsConquered;
+    public int loses;
+    public int foodWorkers;
+    public int woodWorkers;
+    public int goldWorkers;
+    public Land possibleTarget;
+    public boolean conquered;
+    public Land conquerorLand;
 
     public Land(String name, int size, WarManager warManager) {
         this.ai = true;
@@ -113,11 +113,16 @@ public class Land {
     }
 
     public void setUnderAttackStatus(boolean status) {
-        this.isUnderAttack = status;
-        if (this.isUnderAttack)
+
+        if (!this.isUnderAttack && status) {
             MessageBox.pushMessage(name + " is under attack!");
-        else
+            this.isUnderAttack = status;
+        }
+
+        else if (this.isUnderAttack && !status) {
             MessageBox.pushMessage(name + " is no longer under attack");
+            this.isUnderAttack = status;
+        }
     }
 
     public void setUserOwned() {
@@ -187,7 +192,7 @@ public class Land {
     }
 
     private void setAssaultArmy(int soldiersCount) {
-        for (int i = 0; i <= soldiersCount; i++) {
+        for (int i = 0; i < soldiersCount; i++) {
             if (homeArmy.isEmpty())
                 return;
 
@@ -209,5 +214,9 @@ public class Land {
     public void setConquered(boolean res, Land conquerorLand) {
         this.conquered = res;
         this.conquerorLand = conquerorLand;
+        if (res) {
+            MessageBox.pushMessage(this.name + " has been conquered by " + conquerorLand.name);
+            changeName(conquerorLand.name);
+        }
     }
 }
