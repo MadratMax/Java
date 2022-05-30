@@ -4,6 +4,7 @@ public class ConsolePublisher implements IPublisher {
 
     private boolean showFights;
     private boolean showLogs;
+    private boolean showFactory;
 
     @Override
     public void showFights(boolean status) {
@@ -16,13 +17,21 @@ public class ConsolePublisher implements IPublisher {
     }
 
     @Override
+    public void showFactory(boolean status) {
+        showFactory = status;
+    }
+
+    @Override
     public void publish() {
         while (!MessageBox.isEmpty()) {
             String mes = MessageBox.getMessage();
-            if (!showLogs && mes.startsWith("[LOG] ")) {
+            if (!showLogs && mes.startsWith("[LOG]")) {
                 continue;
             }
             if (!showFights && mes.startsWith("[FIGHT]")) {
+                continue;
+            }
+            if (!showFactory && mes.startsWith("[FACTORY]")) {
                 continue;
             }
             System.out.println(mes);

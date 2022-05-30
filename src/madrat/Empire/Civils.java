@@ -38,7 +38,7 @@ public class Civils {
         return civ;
     }
 
-    public void setTo(ResourceType resources) {
+    public void setTo(ResourceType resources, int count) {
         Civil civil = getCivil();
 
         if (civil == null) {
@@ -50,7 +50,7 @@ public class Civils {
             civil.setToWork(resources);
             MessageBox.pushMessage(civil.name() + " is set to produce " + resources);
         } else {
-            setTo(resources);
+            setTo(resources, count-1);
         }
 
         addCivil(civil);

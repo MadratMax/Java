@@ -13,7 +13,7 @@ public class Land {
     public List<Land> allies;
     public Army assaultArmy;
     public Army homeArmy;
-    public Map<ResourceType, Land> trades;
+    public Trade trade;
     public Civils civils;
     public Resources resources;
     public List<Land> neighbours;
@@ -41,10 +41,7 @@ public class Land {
 
         neighbours = new ArrayList<>();
 
-        this.trades = new HashMap<>();
-        this.trades.put(ResourceType.FOOD, null);
-        this.trades.put(ResourceType.GOLD, null);
-        this.trades.put(ResourceType.WOOD, null);
+        this.trade = new Trade(this);
 
         this.assaultArmy = new Army(this);
         this.homeArmy = new Army(this);
@@ -90,12 +87,7 @@ public class Land {
     public Civils getCivils() { return this.civils; }
 
     public void setCivils(Civils newCivils) {
-        this.civils = null;
         this.civils = newCivils;
-
-        for (int i = 0; i < civils.size(); i++) {
-            MessageBox.pushMessage(this.name + " civil: " + civils.getCivil().name());
-        }
     }
 
     public void reformHomeArmy(Army newHomeArmy) {
@@ -158,23 +150,11 @@ public class Land {
     }
 
     public void setTrade(Land land, ResourceType resourceType) {
-        if (neighbours.contains(land) &&
-            (trades.get(resourceType) == null)) {
-            trades.put(resourceType, land);
-        } else {
-            if (!trades.get(resourceType).id.equals(land.id)) {
-                unsetTrade(land, resourceType);
-                trades.put(resourceType, land);
-            }
-        }
+        trade.setTrade(resourceType, land);
     }
 
-    public void unsetTrade(Land land, ResourceType resourceType) {
-        if (neighbours.contains(land) &&
-            (trades.get(resourceType) != null &&
-                trades.get(resourceType).id.equals(land.id))) {
-            trades.replace(resourceType, null);
-        }
+    public void unsetTrade(ResourceType resourceType) {
+        trade.unsetTrade(resourceType);
     }
 
     public void attack(Land enemyLand, int soldiersToAttack) {
@@ -193,8 +173,10 @@ public class Land {
 
     private void setAssaultArmy(int soldiersCount) {
         for (int i = 0; i < soldiersCount; i++) {
-            if (homeArmy.isEmpty())
+            if (homeArmy.isEmpty()) {
+                MessageBox.pushMessage(this.name() + " no soldiers to mobilize. add soldiers to home army");
                 return;
+            }
 
             Soldier soldier = homeArmy.getSoldier();
 

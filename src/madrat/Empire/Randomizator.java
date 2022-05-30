@@ -26,4 +26,8 @@ public class Randomizator {
     public static int getRandomIndex(int arraySize) {
         return random.nextInt(arraySize);
     }
+
+    public static int getYesNo() {
+        return random.nextInt(2);
+    }
 }

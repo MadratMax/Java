@@ -4,19 +4,19 @@ import madrat.Empire.*;
 
 public class Barracks {
 
-    public static void createSoldier(Army army, int count, Resources resources) {
+    public static void createSoldier(Land land, int count) {
         if (count <= 0)
             return;
 
-        createSoldier(army, resources);
-        createSoldier(army, count-1, resources);
+        createSoldier(land.homeArmy, land.resources);
+        createSoldier(land, count-1);
     }
 
     public static void createSoldier(Army army, Resources resources) {
         if (resources.GOLD < GameSettings.createSoldierGoldFee ||
                 resources.FOOD < GameSettings.createSoldierFoodFee ||
                 resources.WOOD < GameSettings.createSoldierWoodFee) {
-            MessageBox.pushLogMessage("insufficient funds to create a soldier");
+            MessageBox.pushBarracksMessage("insufficient funds to create a soldier");
             return;
         }
 
@@ -26,56 +26,57 @@ public class Barracks {
         resources.WOOD = resources.WOOD - GameSettings.createSoldierWoodFee;
 
         army.addSoldier(soldier);
+        MessageBox.pushBarracksMessage(army.owner().name + " new soldier added to home army");
     }
 
-    public static void trainSoldiers(Army army, Resources resources) {
-        if (resources.GOLD < GameSettings.trainSoldierFee) {
-            MessageBox.pushMessage("insufficient funds to train a soldier");
+    public static void trainSoldiers(Land land) {
+        if (land.resources.GOLD < GameSettings.trainSoldierFee) {
+            MessageBox.pushBarracksMessage("insufficient funds to train a soldier");
             return;
         }
 
-        Soldier soldier = army.getSoldier();
+        Soldier soldier = land.homeArmy.getSoldier();
 
         if (soldier == null)
             return;
 
-        resources.GOLD = resources.GOLD - GameSettings.trainSoldierFee;
+        land.resources.GOLD = land.resources.GOLD - GameSettings.trainSoldierFee;
         soldier.skill++;
-        MessageBox.pushLogMessage(soldier.id +  " has been skilled | " + " skill: " + soldier.skill);
+        MessageBox.pushBarracksMessage(soldier.id +  " has been skilled | " + " skill: " + soldier.skill);
 
-        trainSoldiers(army, resources);
-        army.addSoldier(soldier);
+        trainSoldiers(land);
+        land.homeArmy.addSoldier(soldier);
     }
 
-    public static void treatSoldier(Army army, int count, Resources resources) {
-        if (resources.GOLD < GameSettings.treatSoldierFee) {
-            MessageBox.pushMessage("insufficient funds to treat a soldier");
+    public static void treatSoldier(Land land, int count) {
+        if (land.resources.GOLD < GameSettings.treatSoldierFee) {
+            MessageBox.pushBarracksMessage("insufficient funds to treat a soldier");
             return;
         }
 
-        Soldier soldier = army.getSoldier();
+        Soldier soldier = land.homeArmy.getSoldier();
 
         if (count == 0 || soldier == null)
             return;
 
         if (soldier.health < 10) {
             while (soldier.health < 10) {
-                resources.GOLD = resources.GOLD - GameSettings.treatSoldierFee;
+                land.resources.GOLD = land.resources.GOLD - GameSettings.treatSoldierFee;
                 soldier.health++;
             }
 
-            MessageBox.pushLogMessage(soldier.id +  " was treated | " + "health: " + soldier.health);
-            treatSoldier(army, count-1, resources);
+            MessageBox.pushBarracksMessage(soldier.id +  " was treated | " + "health: " + soldier.health);
+            treatSoldier(land, count-1);
         } else {
-            treatSoldier(army, count, resources);
+            treatSoldier(land, count);
         }
 
-        army.addSoldier(soldier);
+        land.homeArmy.addSoldier(soldier);
     }
 
     public static void trainCivil(Civils civils, int count, Resources resources) {
         if (resources.GOLD < GameSettings.trainCivilFee) {
-            MessageBox.pushLogMessage("insufficient funds to train a civil");
+            MessageBox.pushBarracksMessage("insufficient funds to train a civil");
             return;
         }
 
@@ -87,7 +88,7 @@ public class Barracks {
         Soldier soldier = new Soldier();
         resources.GOLD = resources.GOLD - GameSettings.trainCivilFee;
         trainCivil(civils, count-1, resources);
-        MessageBox.pushLogMessage("trained new soldier: " + soldier.name());
+        MessageBox.pushBarracksMessage("trained new soldier: " + soldier.name());
         civils.owner().getHomeArmy().addSoldier(soldier);
     }
 }

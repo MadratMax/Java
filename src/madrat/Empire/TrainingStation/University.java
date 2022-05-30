@@ -4,22 +4,23 @@ import madrat.Empire.*;
 
 public class University {
 
-    public static void createCivil(Civils civils, int count, Resources resources) {
-        if (resources.GOLD < GameSettings.createCivilGoldFee ||
-                resources.FOOD < GameSettings.createCivilFoodFee ||
-                resources.WOOD < GameSettings.createCivilWoodFee) {
+    public static void createCivil(Land land, int count) {
+        if (count <= 0 || land.civils == null)
+            return;
+
+        if (land.resources.GOLD < GameSettings.createCivilGoldFee ||
+                land.resources.FOOD < GameSettings.createCivilFoodFee ||
+                land.resources.WOOD < GameSettings.createCivilWoodFee) {
             MessageBox.pushMessage("insufficient funds to create a civil");
             return;
         }
 
-        if (count <= 0 || civils == null)
-            return;
-
         Civil civil = new Civil();
-        civils.addCivil(civil);
-        resources.FOOD = resources.FOOD - GameSettings.createCivilFoodFee;
-        resources.GOLD = resources.GOLD - GameSettings.createCivilGoldFee;
-        resources.WOOD = resources.WOOD - GameSettings.createCivilWoodFee;
-        createCivil(civils, count-1, resources);
+        land.civils.addCivil(civil);
+        land.resources.FOOD = land.resources.FOOD - GameSettings.createCivilFoodFee;
+        land.resources.GOLD = land.resources.GOLD - GameSettings.createCivilGoldFee;
+        land.resources.WOOD = land.resources.WOOD - GameSettings.createCivilWoodFee;
+        MessageBox.pushMessage(land.name + " new civil created");
+        createCivil(land, count-1);
     }
 }

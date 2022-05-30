@@ -34,4 +34,5 @@ public class GameSettings {
     public static int woodTradeProfit = 10;
 
     public static int traderProfit = 2;
+    public static String userLandName = "UserLand";
 }

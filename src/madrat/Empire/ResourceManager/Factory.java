@@ -8,23 +8,23 @@ public class Factory {
         Civil civil = civils.getCivil();
 
         if (civil == null) {
-            MessageBox.pushMessage("FOOD:  " + resources.FOOD);
-            MessageBox.pushMessage("WOOD:  " + resources.WOOD);
-            MessageBox.pushMessage("GOLD:  " + resources.GOLD);
+            MessageBox.pushFactoryMessage("FOOD:  " + resources.FOOD);
+            MessageBox.pushFactoryMessage("WOOD:  " + resources.WOOD);
+            MessageBox.pushFactoryMessage("GOLD:  " + resources.GOLD);
             return;
         }
 
         if (civil.getWorkOnResourceType().equals(ResourceType.WOOD)) {
             resources.WOOD = resources.WOOD + GameSettings.woodGain;
-            MessageBox.pushMessage("wood profit + " + GameSettings.woodGain);
+            MessageBox.pushFactoryMessage("wood profit + " + GameSettings.woodGain);
         }
         else if (civil.getWorkOnResourceType().equals(ResourceType.FOOD)) {
             resources.FOOD = resources.FOOD + GameSettings.foodGain;
-            MessageBox.pushMessage("food profit + " + GameSettings.foodGain);
+            MessageBox.pushFactoryMessage("food profit + " + GameSettings.foodGain);
         }
         else if (civil.getWorkOnResourceType().equals(ResourceType.GOLD)) {
             resources.GOLD = resources.GOLD + GameSettings.goldGain;
-            MessageBox.pushMessage("gold profit + " + GameSettings.goldGain);
+            MessageBox.pushFactoryMessage("gold profit + " + GameSettings.goldGain);
         }
 
         process(civils, resources);

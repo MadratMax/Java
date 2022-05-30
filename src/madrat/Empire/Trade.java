@@ -16,7 +16,7 @@ public class Trade {
     }
 
     public Land owner() {
-        return owner();
+        return owner;
     }
 
     public Map<ResourceType, Land> getTrading() {
@@ -24,6 +24,11 @@ public class Trade {
     }
 
     public void setTrade(ResourceType resourceType, Land land) {
+        if (!owner.neighbours.contains(land)) {
+            MessageBox.pushMessage(owner.name + " cannot trade with " + land.name());
+            return;
+        }
+
         if (trades.get(resourceType) != null) {
             MessageBox.pushMessage(owner.name + " has set trade type " + resourceType + " with " + trades.get(resourceType).name);
             MessageBox.pushMessage(owner.name + " need to unset current trade first");
@@ -41,6 +46,17 @@ public class Trade {
                 MessageBox.pushMessage(owner.name + " unsets trade type " + resourceType + " with " + land.name);
             }
         }
+    }
 
+    public void unsetTrade(ResourceType resourceType) {
+        if (trades.get(resourceType) != null) {
+            String traderName = trades.get(resourceType).name;
+            trades.put(resourceType, null);
+            MessageBox.pushMessage(owner.name + " unsets trade type " + resourceType + " with " + traderName);
+        }
+    }
+
+    public Land getTraderLand(ResourceType resourceType) {
+        return trades.get(resourceType);
     }
 }

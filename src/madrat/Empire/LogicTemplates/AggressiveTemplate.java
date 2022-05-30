@@ -20,4 +20,24 @@ public class AggressiveTemplate implements ITemplate{
     public int maxLostSoldiersToRevoke() {
         return maxLostSoldiersToRevoke;
     }
+
+    @Override
+    public int maxSoldiers() {
+        return 0;
+    }
+
+    @Override
+    public int trainSoldiersPerDay() {
+        return 0;
+    }
+
+    @Override
+    public int askForMoney() {
+        return 0;
+    }
+
+    @Override
+    public int treatSoldiersCount() {
+        return 0;
+    }
 }
