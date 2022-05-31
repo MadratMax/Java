@@ -11,7 +11,7 @@ public class University {
         if (land.resources.GOLD < GameSettings.createCivilGoldFee ||
                 land.resources.FOOD < GameSettings.createCivilFoodFee ||
                 land.resources.WOOD < GameSettings.createCivilWoodFee) {
-            MessageBox.pushMessage("insufficient funds to create a civil");
+            MessageBox.pushMessage(land,  "insufficient funds to create a civil");
             return;
         }
 
@@ -20,7 +20,7 @@ public class University {
         land.resources.FOOD = land.resources.FOOD - GameSettings.createCivilFoodFee;
         land.resources.GOLD = land.resources.GOLD - GameSettings.createCivilGoldFee;
         land.resources.WOOD = land.resources.WOOD - GameSettings.createCivilWoodFee;
-        MessageBox.pushMessage(land.name + " new civil created");
+        MessageBox.pushMessage(land, "new civil created");
         createCivil(land, count-1);
     }
 }

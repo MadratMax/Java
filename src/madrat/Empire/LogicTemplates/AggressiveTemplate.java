@@ -2,9 +2,19 @@ package madrat.Empire.LogicTemplates;
 
 public class AggressiveTemplate implements ITemplate{
 
+    private final TemplateType type;
     private int allSoldiersToWar = 100;
     private int makeMoreWorkerIfGold = 100;
     private int maxLostSoldiersToRevoke = 1;
+
+    public AggressiveTemplate() {
+        this.type = TemplateType.AGGRESSIVE;
+    }
+
+    @Override
+    public TemplateType type() {
+        return type;
+    }
 
     @Override
     public int allSoldiersToWar() {

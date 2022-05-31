@@ -11,16 +11,28 @@ public class MessageBox {
 
     }
 
-    public static void pushMessage(String message) {
-        box.add(message);
+    public static void pushErrorMessage(String message) {
+        box.add("    =====================================\n" + "=== "
+                + "[ERROR] " + message +
+                " ===\n" + "    =====================================");
     }
 
-    public static void pushLogMessage(String message) {
-        box.add("[LOG] " + message);
+    public static void pushMessage(Land land, String message) {
+        if (land == null || land.ai)
+            pushLogMessage(land, message);
+        else
+            box.add(land.name + " " + message);
     }
 
-    public static void pushFightMessage(String message) {
-        box.add("[FIGHT] " + message);
+    public static void pushLogMessage(Land land, String message) {
+        if (land == null)
+            box.add("[LOG] " + message);
+        else
+            box.add("[LOG] " + land.name + " " + message);
+    }
+
+    public static void pushFightMessage(Land land, String message) {
+        box.add("[FIGHT] " + land.name + " " + message);
     }
 
     public static String getMessage() {
@@ -35,11 +47,11 @@ public class MessageBox {
         return box.isEmpty();
     }
 
-    public static void pushFactoryMessage(String message) {
-        box.add("[FACTORY] " + message);
+    public static void pushFactoryMessage(Land land, String message) {
+        box.add("[FACTORY] " + land.name + " " + message);
     }
 
-    public static void pushBarracksMessage(String message) {
-        box.add("[ARMY] " + message);
+    public static void pushBarracksMessage(Land land, String message) {
+        box.add("[ARMY] " + land.name + " " + message);
     }
 }

@@ -6,6 +6,8 @@ public interface ITemplate {
     public int makeMoreWorkerIfGold();
     public int maxLostSoldiersToRevoke();
 
+    public TemplateType type();
+
     // percent of civils amount
     public int maxSoldiers();
 

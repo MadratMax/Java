@@ -14,9 +14,9 @@ public class LandManager {
         if (fromLand.getNeighbours().contains(neighbour)) {
             fromLand.getNeighbours().remove(neighbour);
             int oldSize = fromLand.size();
-            MessageBox.pushMessage(fromLand.name() + " occupied " + neighbour.name());
+            MessageBox.pushMessage(fromLand, "occupied " + neighbour.name());
             fromLand.setSize(neighbour.size());
-            MessageBox.pushMessage(fromLand.name() + " size extended from " + oldSize + " to " + fromLand.size());
+            MessageBox.pushMessage(fromLand, "size extended from " + oldSize + " to " + fromLand.size());
             neighbour.setConquered(true, fromLand);
             neighbour.assaultArmy = fromLand.assaultArmy;
             neighbour.homeArmy = fromLand.homeArmy;
@@ -25,7 +25,7 @@ public class LandManager {
                     !neighbour.getNeighbours().get(i).id().equals(neighbour.id())) {
                     fromLand.setNeighbour(neighbour.getNeighbours().get(i));
                     neighbour.getNeighbours().get(i).setNeighbour(fromLand);
-                    MessageBox.pushMessage(fromLand.name() + " now borders with " + neighbour.getNeighbours().get(i).name());
+                    MessageBox.pushMessage(fromLand, "now borders with " + neighbour.getNeighbours().get(i).name());
                 }
             }
         }

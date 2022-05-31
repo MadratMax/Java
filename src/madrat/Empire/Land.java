@@ -29,12 +29,14 @@ public class Land {
     public Land possibleTarget;
     public boolean conquered;
     public Land conquerorLand;
+    public Land attacker;
 
     public Land(String name, int size, WarManager warManager) {
         this.ai = true;
         this.name = name;
         this.kingName = "TODO";
         this.size = size;
+        this.capacity = size;
         this.id = UUID.randomUUID().toString();
 
         this.resources = new Resources();
@@ -78,6 +80,7 @@ public class Land {
 
     public void setSize(int newSize) {
         this.size = this.size + newSize;
+        this.capacity = this.size;
     }
 
     public Army getHomeArmy() { return this.homeArmy; }
@@ -104,15 +107,17 @@ public class Land {
         return this.resources;
     }
 
-    public void setUnderAttackStatus(boolean status) {
+    public void setUnderAttackStatus(Land attacker, boolean status) {
 
         if (!this.isUnderAttack && status) {
-            MessageBox.pushMessage(name + " is under attack!");
+            MessageBox.pushMessage(this,"is under attack!");
             this.isUnderAttack = status;
+            this.attacker = attacker;
         }
 
         else if (this.isUnderAttack && !status) {
-            MessageBox.pushMessage(name + " is no longer under attack");
+            MessageBox.pushMessage(this, "is no longer under attack");
+            this.attacker = null;
             this.isUnderAttack = status;
         }
     }
@@ -134,18 +139,13 @@ public class Land {
         return neighbours;
     }
 
-    public void addSoldierToHomeArmy() {
-        Soldier soldier = new Soldier();
-        homeArmy.addSoldier(soldier);
-    }
-
     public void revokeToHomeArmy(boolean capitulation) {
         while (!assaultArmy.isEmpty()) {
             Soldier soldier = assaultArmy.getSoldier();
             if (capitulation)
                 soldier.setSpirit(Spirit.LOW);
             homeArmy.addSoldier(soldier);
-            MessageBox.pushMessage(this.name + " | soldier " + soldier.name() + " returned to home army");
+            MessageBox.pushMessage(this, "| soldier " + soldier.name() + " returned to home army");
         }
     }
 
@@ -167,14 +167,18 @@ public class Land {
                 // TODO message
             }
         } else {
-            MessageBox.pushMessage(this.name() + " is too far from " + enemyLand.name() + " to attack");
+            MessageBox.pushMessage(this, "is too far from " + enemyLand.name() + " to attack");
         }
     }
 
-    private void setAssaultArmy(int soldiersCount) {
+    public void setAssaultArmy(int soldiersCount) {
+        if (soldiersCount == 0) {
+            MessageBox.pushMessage(this, "no soldiers to mobilize. add soldiers to home army");
+            return;
+        }
         for (int i = 0; i < soldiersCount; i++) {
             if (homeArmy.isEmpty()) {
-                MessageBox.pushMessage(this.name() + " no soldiers to mobilize. add soldiers to home army");
+                MessageBox.pushMessage(this, "no soldiers to mobilize. add soldiers to home army");
                 return;
             }
 
@@ -182,9 +186,9 @@ public class Land {
 
             if (soldier != null) {
                 assaultArmy.addSoldier(soldier);
-                MessageBox.pushMessage("soldier " + soldier.name() + " was mobilized to the assault army of " + this.name);
-                MessageBox.pushMessage(this.name + " home army contains " + homeArmy.size());
-                MessageBox.pushMessage(this.name + " assault army contains " + assaultArmy.size());
+                MessageBox.pushMessage(this, "soldier " + soldier.name() + " was mobilized to the assault army");
+                MessageBox.pushMessage(this, "home army contains " + homeArmy.size());
+                MessageBox.pushMessage(this, "assault army contains " + assaultArmy.size());
             }
         }
     }
@@ -197,7 +201,7 @@ public class Land {
         this.conquered = res;
         this.conquerorLand = conquerorLand;
         if (res) {
-            MessageBox.pushMessage(this.name + " has been conquered by " + conquerorLand.name);
+            MessageBox.pushMessage(this, "has been conquered by " + conquerorLand.name);
             changeName(conquerorLand.name);
         }
     }

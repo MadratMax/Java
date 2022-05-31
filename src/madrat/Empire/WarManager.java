@@ -23,22 +23,22 @@ public class WarManager {
         }
 
         if (attacker.owner().name().equals(army2.owner().name())) {
-            MessageBox.pushMessage(attacker.owner().name() + " cannot attack own army");
+            MessageBox.pushMessage(attacker.owner(),"cannot attack own army");
             return false;
         }
 
         if (!attacker.owner().getNeighbours().contains(army2.owner())) {
-            MessageBox.pushMessage(attacker.owner().name() + " is too far from " + army2.owner().name() + " to attack");
+            MessageBox.pushMessage(attacker.owner(), "is too far from " + army2.owner().name() + " to attack");
             return false;
         }
 
         if (!enemies.containsKey(attacker)) {
-            // TODO army1 attacks army2 !message!
+
             if (attacker.size() > 0) {
 
                 Land conqueror = army2.owner().conqueredBy();
                 if (conqueror != null) {
-                    MessageBox.pushMessage("army " + army2.owner().name() + " belongs to " + conqueror.name());
+                    MessageBox.pushMessage(army2.owner(), "army belongs to " + conqueror.name());
                     army2 = conqueror.getHomeArmy();
                 }
 
@@ -47,10 +47,10 @@ public class WarManager {
 
                 return true;
             } else {
-                MessageBox.pushMessage(attacker.owner().name() + " has no soldiers to attack " + army2.owner().name());
+                MessageBox.pushMessage(attacker.owner(),"has no soldiers to attack " + army2.owner().name());
             }
         } else {
-            MessageBox.pushMessage("cannot start new war since " + attacker.owner().name() + " is already in war with " + enemies.get(attacker).owner().name());
+            MessageBox.pushMessage(attacker.owner(), "cannot start new war since " + attacker.owner().name() + " is already in war with " + enemies.get(attacker).owner().name());
         }
         return false;
     }
@@ -59,16 +59,16 @@ public class WarManager {
 
         if (attacker.isEmpty()) {
             army2.owner().setPossibleTarget(attacker.owner());
-            MessageBox.pushMessage(attacker.owner().name() + " army is lost the battle");
-            attacker.owner().setUnderAttackStatus(false);
+            MessageBox.pushMessage(attacker.owner(), "army is lost the battle");
+            attacker.owner().setUnderAttackStatus(army2.owner(), false);
 
             enemies.remove(attacker);
         }
 
         if (army2.isEmpty()) {
             String loser = army2.owner().name();
-            MessageBox.pushMessage(loser + " army is lost the battle");
-            army2.owner().setUnderAttackStatus(false);
+            MessageBox.pushMessage(army2.owner(), "army is lost the battle");
+            army2.owner().setUnderAttackStatus(attacker.owner() ,false);
             boolean unsetUnderAttack = true;
             for (Army attackerArmy: enemies.keySet()) {
                 if (enemies.get(attackerArmy).owner().name().equals(attacker.owner().name())) {
@@ -77,7 +77,7 @@ public class WarManager {
             }
             if (unsetUnderAttack) {
                 attacker.owner().setOnWar(false);
-                attacker.owner().setUnderAttackStatus(false);
+                attacker.owner().setUnderAttackStatus(army2.owner(),false);
             }
 
             army2.owner().setOnWar(false);
@@ -88,20 +88,22 @@ public class WarManager {
                 enemies.remove(attacker);
                 return;
             }
+
             landManager.extend(attacker.owner(), army2.owner());
-            MessageBox.pushLogMessage(loser + " army is lost the battle");
+
+            MessageBox.pushLogMessage(army2.owner(),"army is lost the battle");
             while (assaultEnemyArmy.size() > 0) {
                 Soldier newSoldier = assaultEnemyArmy.getSoldier();
                 attacker.addSoldier(newSoldier);
                 if (newSoldier != null) {
-                    MessageBox.pushMessage(attacker.owner().name() + " | new soldier added: " + newSoldier.name());
+                    MessageBox.pushMessage(attacker.owner(),"| new surrendered soldier added: " + newSoldier.name());
                 }
             }
             while (civils.size() > 0) {
                 Civil civil = civils.getCivil();
                 attacker.owner().getCivils().addCivil(civil);
                 if (civil != null) {
-                    MessageBox.pushMessage(attacker.owner().name() + " | new civil added: " + civil.name());
+                    MessageBox.pushMessage(attacker.owner(), "| new surrendered civil added: " + civil.name());
                 }
             }
 
@@ -119,23 +121,14 @@ public class WarManager {
         }
         if (unsetUnderAttack) {
             attacker.owner().setOnWar(false);
-            attacker.owner().setUnderAttackStatus(false);
+            attacker.owner().setUnderAttackStatus(army2.owner(), false);
         }
-
-        // TODO message
-
     }
 
     public void process() {
-        // TODO
 
         if (enemies != null) {
 
-            //for (int i=enemies.size() - 1; i >= 0; i--) {
-            //    Army army = enemies.get(i);
-            //}
-
-            //for (Army army: enemies.keySet()) {
             for (int i=enemies.size() - 1; i >= 0; i--) {
                 Army army = (Army) enemies.keySet().toArray()[i];
                 Army enemyArmy = enemies.get(army);
@@ -148,17 +141,15 @@ public class WarManager {
                     return;
                 }
 
-                MessageBox.pushMessage(army.owner().name() + " attacks " + enemyArmy.owner().name());
-                enemyArmy.owner().setUnderAttackStatus(true);
+                MessageBox.pushMessage(army.owner(),"attacks " + enemyArmy.owner().name());
+                enemyArmy.owner().setUnderAttackStatus(army.owner(),true);
                 army.owner().setOnWar(true);
 
                 if (army.isEmpty()) {
                     finishWar(army, enemyArmy);
-                    // TODO update message box
 
                 } else if (enemyArmy.isEmpty()) {
                     finishWar(army, enemyArmy);
-                    // TODO message
 
                 } else {
                     int first = Randomizator.getRandomIndex(2);

@@ -26,11 +26,11 @@ public class WorldManager {
         this.landsCount = landsCount;
     }
 
-    public List getPlayers() {
+    public List<IPlayer> getPlayers() {
         return players;
     }
 
-    public List getLands() {
+    public List<Land> getLands() {
         return lands;
     }
 
@@ -47,6 +47,9 @@ public class WorldManager {
         for (int i = 0; i < landsCount; i++) {
             int landIndex = i+1;
             lands.add(new Land("Land_" + landIndex, Randomizator.getRandomMapSize(), warManager));
+            lands.get(i).resources.GOLD = Randomizator.getRandomIntInRange(30, 100);
+            lands.get(i).resources.WOOD = Randomizator.getRandomIntInRange(30, 100);
+            lands.get(i).resources.FOOD = Randomizator.getRandomIntInRange(30, 100);
         }
 
         world = new Graph<Integer>();

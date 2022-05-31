@@ -18,8 +18,11 @@ public class Army {
     }
 
     public Soldier addSoldier(Soldier soldier) {
-        if (size >= owner.size())
+        if (size >= owner.size()) {
+            MessageBox.pushMessage(owner, "has reached max population size: " + size + ". cannot create a soldier");
             return null;
+        }
+
 
         if (soldier != null && soldier.health() > 0) {
             if (soldier.name().startsWith("_")) {

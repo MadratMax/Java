@@ -1,14 +1,14 @@
 package madrat.Empire.LogicTemplates;
 
-public class StandardEconomyTemplate implements ITemplate {
+public class WarriorTemplate implements ITemplate{
 
     private final TemplateType type;
-    private int allSoldiersToWar = 20;
+    private int allSoldiersToWar = 100;
     private int makeMoreWorkerIfGold = 100;
     private int maxLostSoldiersToRevoke = 1;
 
-    public StandardEconomyTemplate() {
-        this.type = TemplateType.AGGRESSIVE;
+    public WarriorTemplate() {
+        this.type = TemplateType.WARRIOR;
     }
 
     @Override

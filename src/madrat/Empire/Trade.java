@@ -25,25 +25,35 @@ public class Trade {
 
     public void setTrade(ResourceType resourceType, Land land) {
         if (!owner.neighbours.contains(land)) {
-            MessageBox.pushMessage(owner.name + " cannot trade with " + land.name());
+            MessageBox.pushMessage(owner, "cannot trade with " + land.name());
             return;
         }
 
         if (trades.get(resourceType) != null) {
-            MessageBox.pushMessage(owner.name + " has set trade type " + resourceType + " with " + trades.get(resourceType).name);
-            MessageBox.pushMessage(owner.name + " need to unset current trade first");
+            if (trades.get(resourceType).name.equals(owner.name)) {
+                unsetTrade(resourceType, owner);
+                return;
+            }
+
+            if (!owner.ai) {
+                MessageBox.pushMessage(owner, "has set trade type " + resourceType + " with " + trades.get(resourceType).name);
+                MessageBox.pushMessage(owner, "need to unset current trade first");
+            }
+
             return;
         }
 
+
+
         trades.put(resourceType, land);
-        MessageBox.pushMessage(owner.name + " sets trade type " + resourceType + " with " + land.name);
+        MessageBox.pushMessage(owner, "sets trade type " + resourceType + " with " + land.name);
     }
 
     public void unsetTrade(ResourceType resourceType, Land land) {
         if (trades.get(resourceType) != null) {
             if (trades.get(resourceType).name.equals(land.name)) {
                 trades.put(resourceType, null);
-                MessageBox.pushMessage(owner.name + " unsets trade type " + resourceType + " with " + land.name);
+                MessageBox.pushMessage(owner, "unsets trade type " + resourceType + " with " + land.name);
             }
         }
     }
@@ -52,7 +62,7 @@ public class Trade {
         if (trades.get(resourceType) != null) {
             String traderName = trades.get(resourceType).name;
             trades.put(resourceType, null);
-            MessageBox.pushMessage(owner.name + " unsets trade type " + resourceType + " with " + traderName);
+            MessageBox.pushMessage(owner, "unsets trade type " + resourceType + " with " + traderName);
         }
     }
 

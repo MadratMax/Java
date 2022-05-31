@@ -35,7 +35,7 @@ public class Main {
         // hack to operate as user
         IPlayer userPlayer = worldManager.getUserPlayer();
 
-        processor.runActionQueue();
+        //processor.runActionQueue();
         processor.processProgress();
         processor.processProgress();
         processor.processProgress();
@@ -50,17 +50,49 @@ public class Main {
 
         processor.processProgress();
 
-        userPlayer.land().attack(userPlayer.land().neighbours.get(0), 2);
-        Barracks.createSoldier(userPlayer.land(), 10);
-        userPlayer.land().attack(userPlayer.land().neighbours.get(0), 2);
+        userPlayer.land().attack(userPlayer.land().neighbours.get(0), 1);
+        Barracks.createSoldier(userPlayer.land(), 2);
+        userPlayer.land().attack(userPlayer.land().neighbours.get(0), 1);
 
         processor.processProgress();
 
-        userPlayer.land().attack(userPlayer.land().neighbours.get(0), 2);
-        processor.processProgress();
+
+        userPlayer.land().attack(userPlayer.land().neighbours.get(0), 1);
+
+        for (int i = 0; i < 76; i++) {
+            processor.processProgress();
+            Thread.sleep(10);
+        }
+
+        publisher.publish();
+
+        publisher.showLogs(true);
+        Barracks.createSoldier(userPlayer.land().neighbours.get(0), 20);
+        userPlayer.land().neighbours.get(0).attack(userPlayer.land(), 4);
+
+        for (int i = 0; i < 36; i++) {
+            processor.processProgress();
+            Thread.sleep(10);
+        }
 
         worldManager.resetBorders();
 
         publisher.publish();
+
+        for (Land land: worldManager.getLands()) {
+            System.out.println("===========");
+            System.out.println(land.name);
+            System.out.println("gold: " + land.resources.GOLD);
+            System.out.println("food: " + land.resources.FOOD);
+            System.out.println("wood: " + land.resources.WOOD);
+            System.out.println("home army: " + land.homeArmy.size());
+            System.out.println("assault army: " + land.assaultArmy.size());
+            System.out.println("civils: " + land.civils.size());
+            if (land.conqueredBy() != null)
+                System.out.println("conquered by: " + land.conqueredBy().name);
+            System.out.println("food workers: " + land.foodWorkers);
+            System.out.println("gold workers: " + land.goldWorkers);
+            System.out.println("wood workers: " + land.woodWorkers);
+        }
     }
 }

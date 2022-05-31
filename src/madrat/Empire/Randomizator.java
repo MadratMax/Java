@@ -24,10 +24,13 @@ public class Randomizator {
     }
 
     public static int getRandomIndex(int arraySize) {
-        return random.nextInt(arraySize);
+        if (arraySize == 0)
+            return 0;
+        return ThreadLocalRandom.current().nextInt(0, arraySize);
     }
 
     public static int getYesNo() {
-        return random.nextInt(2);
+        int res = random.nextInt(2);
+        return res;
     }
 }

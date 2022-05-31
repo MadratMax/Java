@@ -24,6 +24,10 @@ public class Civil {
         workOnResourceType = resourceType;
     }
 
+    public void freeFromWork(ResourceType resourceType) {
+        workOnResourceType = ResourceType.UNSET;
+    }
+
     public ResourceType getWorkOnResourceType() {
         return workOnResourceType;
     }

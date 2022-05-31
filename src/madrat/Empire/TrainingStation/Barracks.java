@@ -12,11 +12,11 @@ public class Barracks {
         createSoldier(land, count-1);
     }
 
-    public static void createSoldier(Army army, Resources resources) {
+    private static void createSoldier(Army army, Resources resources) {
         if (resources.GOLD < GameSettings.createSoldierGoldFee ||
                 resources.FOOD < GameSettings.createSoldierFoodFee ||
                 resources.WOOD < GameSettings.createSoldierWoodFee) {
-            MessageBox.pushBarracksMessage("insufficient funds to create a soldier");
+            MessageBox.pushBarracksMessage(army.owner(), "insufficient funds to create a soldier");
             return;
         }
 
@@ -26,12 +26,12 @@ public class Barracks {
         resources.WOOD = resources.WOOD - GameSettings.createSoldierWoodFee;
 
         army.addSoldier(soldier);
-        MessageBox.pushBarracksMessage(army.owner().name + " new soldier added to home army");
+        MessageBox.pushBarracksMessage(army.owner(), "new soldier added to home army");
     }
 
     public static void trainSoldiers(Land land) {
         if (land.resources.GOLD < GameSettings.trainSoldierFee) {
-            MessageBox.pushBarracksMessage("insufficient funds to train a soldier");
+            MessageBox.pushBarracksMessage(land, "insufficient funds to train a soldier");
             return;
         }
 
@@ -42,7 +42,7 @@ public class Barracks {
 
         land.resources.GOLD = land.resources.GOLD - GameSettings.trainSoldierFee;
         soldier.skill++;
-        MessageBox.pushBarracksMessage(soldier.id +  " has been skilled | " + " skill: " + soldier.skill);
+        MessageBox.pushBarracksMessage(land, soldier.id +  " has been skilled | " + " skill: " + soldier.skill);
 
         trainSoldiers(land);
         land.homeArmy.addSoldier(soldier);
@@ -50,7 +50,7 @@ public class Barracks {
 
     public static void treatSoldier(Land land, int count) {
         if (land.resources.GOLD < GameSettings.treatSoldierFee) {
-            MessageBox.pushBarracksMessage("insufficient funds to treat a soldier");
+            MessageBox.pushBarracksMessage(land, "insufficient funds to treat a soldier");
             return;
         }
 
@@ -65,7 +65,7 @@ public class Barracks {
                 soldier.health++;
             }
 
-            MessageBox.pushBarracksMessage(soldier.id +  " was treated | " + "health: " + soldier.health);
+            MessageBox.pushBarracksMessage(land, soldier.id +  " was treated | " + "health: " + soldier.health);
             treatSoldier(land, count-1);
         } else {
             treatSoldier(land, count);
@@ -76,7 +76,7 @@ public class Barracks {
 
     public static void trainCivil(Civils civils, int count, Resources resources) {
         if (resources.GOLD < GameSettings.trainCivilFee) {
-            MessageBox.pushBarracksMessage("insufficient funds to train a civil");
+            MessageBox.pushBarracksMessage(civils.owner(), "insufficient funds to train a civil");
             return;
         }
 
@@ -88,7 +88,7 @@ public class Barracks {
         Soldier soldier = new Soldier();
         resources.GOLD = resources.GOLD - GameSettings.trainCivilFee;
         trainCivil(civils, count-1, resources);
-        MessageBox.pushBarracksMessage("trained new soldier: " + soldier.name());
+        MessageBox.pushBarracksMessage(civils.owner(), "trained new soldier: " + soldier.name());
         civils.owner().getHomeArmy().addSoldier(soldier);
     }
 }

@@ -78,6 +78,6 @@ public class Graph<T> {
             builder.append("\n");
         }
 
-        MessageBox.pushMessage("Map: \n" + builder.toString());
+        MessageBox.pushMessage(null,"Map: \n" + builder.toString());
     }
 }

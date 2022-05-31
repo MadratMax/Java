@@ -1,6 +1,7 @@
 package madrat.Processor;
 
 import madrat.Empire.Configurator.WorldManager;
+import madrat.Empire.Land;
 import madrat.Empire.MessageBox;
 import madrat.Empire.ResourceManager.Factory;
 
@@ -28,11 +29,18 @@ public class ActionProcessor {
     // 1.2 AI actions (real)
     public void runActionQueue() {
         for (IPlayer player: players) {
+            if (player.isLost() && player.canMove()) {
+                MessageBox.pushErrorMessage("Player " + player.name() + " is lost his land");
+                player.canMove(false);
+                continue;
+            }
+
             if (!player.isAI()) {
                 // provide user interface
                 player.act();
             } else {
-                player.act();
+                if (!player.land().conquered)
+                    player.act();
             }
         }
 
@@ -44,10 +52,17 @@ public class ActionProcessor {
     // calc profits
     // calc ...
     public void processProgress() {
-        MessageBox.pushMessage("------------- ------------- ------------- ------------- ");
-        MessageBox.pushMessage("day " + day++);
+        MessageBox.pushMessage(null,"------------- ------------- ------------- ------------- ");
+        MessageBox.pushMessage(null,"day " + day++);
+
+        runActionQueue();
 
         for (IPlayer player: players) {
+
+            if (player.land().conquered) {
+                player.setLost();
+                continue;
+            }
 
             trader.manageTrade(player.land().trade);
             Factory.process(player.land().getCivils(), player.land().resources);
@@ -56,7 +71,14 @@ public class ActionProcessor {
 
         worldManager.getWarManager().process();
 
-        MessageBox.pushMessage("------------- ------------- ------------- ------------- ");
+
+        MessageBox.pushMessage(null,"------------- ------------- ------------- ------------- ");
+
+
+    }
+
+    private void showGameOver(IPlayer player) {
+        System.out.println("Player " + player.name() + " has lost the game");
     }
 
     // 3rd

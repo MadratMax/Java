@@ -18,8 +18,10 @@ public class Civils {
     }
 
     public Civil addCivil(Civil civil) {
-        if (size >= owner.size())
+        if (size >= owner.size()) {
+            MessageBox.pushMessage(owner, "has reached max population size: " + size + ". cannot create a civil");
             return null;
+        }
 
         if (civil != null) {
             civils.push(civil);
@@ -38,19 +40,61 @@ public class Civils {
         return civ;
     }
 
-    public void setTo(ResourceType resources, int count) {
+    public void setTo(ResourceType resourceType, int count) {
+
+        if (count <= 0)
+            return;
+
         Civil civil = getCivil();
 
         if (civil == null) {
-            MessageBox.pushMessage("no free civils to produce " + resources);
+            MessageBox.pushMessage(owner, "no free civils to produce " + resourceType);
             return;
         }
 
         if (civil.getWorkOnResourceType().equals(ResourceType.UNSET)) {
-            civil.setToWork(resources);
-            MessageBox.pushMessage(civil.name() + " is set to produce " + resources);
+            civil.setToWork(resourceType);
+
+            if (resourceType.equals(ResourceType.FOOD))
+                owner.foodWorkers++;
+            if (resourceType.equals(ResourceType.WOOD))
+                owner.woodWorkers++;
+            if (resourceType.equals(ResourceType.GOLD))
+                owner.goldWorkers++;
+
+            MessageBox.pushMessage(owner,  civil.name() + " is set to produce " + resourceType);
         } else {
-            setTo(resources, count-1);
+            setTo(resourceType, count-1);
+        }
+
+        addCivil(civil);
+    }
+
+    public void unsetFrom(ResourceType resourceType, int count) {
+
+        if (count <= 0)
+            return;
+
+        Civil civil = getCivil();
+
+        if (civil == null) {
+            MessageBox.pushMessage(owner, "no free civils");
+            return;
+        }
+
+        if (civil.getWorkOnResourceType().equals(resourceType)) {
+            civil.freeFromWork(resourceType);
+
+            if (resourceType.equals(ResourceType.FOOD))
+                owner.foodWorkers--;
+            if (resourceType.equals(ResourceType.WOOD))
+                owner.woodWorkers--;
+            if (resourceType.equals(ResourceType.GOLD))
+                owner.goldWorkers--;
+
+            MessageBox.pushMessage(owner, civil.name() + " is released from producing " + resourceType);
+        } else {
+            unsetFrom(resourceType, count-1);
         }
 
         addCivil(civil);
