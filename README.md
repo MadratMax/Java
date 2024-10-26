@@ -1,4 +1,4 @@
 # Java
-Java based solutions
+Java sandbox
 
 json-configuration-builder - provide flexible data extraction from json. 
